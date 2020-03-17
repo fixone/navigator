@@ -1,0 +1,15 @@
+{
+  "name": "url-shortener-fn",
+  "version": "0.0.1",
+  "description": "URL shortener based on Google Spreadsheers and Google Cloud Functions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "felix",
+  "license": "ISC",
+  "dependencies": {
+    "googleapis": "^48.0.0",
+    "nconf": "^0.10.0"
+  }
+}
