@@ -48,12 +48,11 @@ exports.getLink = async (req,res) => {
     let defURL = nconf.get("DEFAULT_URL")||"https://www.wikipedia.org";
 
     if(entries != null) {
-        console.log("iterating",entries,"for",req.url,req.baseUrl);
+        console.log("iterating",entries.length,"items, looking for",req.url);
         if(Array.isArray(entries)) {
             for(let i=0;i<entries.length;i++) {
-                console.log("comparing",entries[i][0],"with",req.url);
                 if(entries[i]!=null && entries[i][0]==req.url) {
-                    console.log("redirecting to",entries[i][1],"from",entries[i]);
+                    console.log("redirecting to",entries[i][1]);
                     res.redirect(302,entries[i][1]);
                     return;
                 }
