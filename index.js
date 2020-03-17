@@ -9,55 +9,7 @@ const sheetsVersion = "v4";
 
 const reqURL = "https://sheets.googleapis.com/"+sheetsVersion+"/spreadsheets/"+docId;
 
-
-const getSheets = () => {
-    return new Promise( async (ok,fail) => {
-        const gauth = await google.auth.getClient({
-            scopes: [
-            "https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/devstorage.read_only"
-            ]
-        });
-
-        console.log("running in project", await google.auth.getProjectId());
-
-        try {
-            const rsp = await gauth.request({url:reqURL});
-        
-            if(rsp.data != null && rsp.data.sheets != null) {
-                ok(rsp.data.sheets);
-            } else {
-                ok(null);
-            }
-        } catch (error) {
-            console.log("GOT error",JSON.stringify(error));
-            fail(error);
-        }
-    });
-}
-
-
-const getSheetIdByName =  async (sName)  => {
-        
-    let sps = await getSheets();
-    if(sps != null && Array.isArray(sps)) {
-        let len = sps.length
-        let i = 0;
-        while(i<len) {
-            let s = sps[i];
-            if(s.properties != null && s.properties.title != null && s.properties.title === sName) {
-                return s.properties.sheetId;
-            } else {
-                i++;
-            }
-        }
-        return null;
-    } else {
-        return null;
-    }
-}
-
-const getEntries = async (sheetId) => {
+const getEntries = async (sheetName) => {
     const gauth = await google.auth.getClient({
         scopes: [
         "https://www.googleapis.com/auth/spreadsheets",
@@ -66,7 +18,7 @@ const getEntries = async (sheetId) => {
     });
     try {
         const rsp = await gauth.request({
-            url:reqURL+"/values/"+sheetId+"!A:B",
+            url:reqURL+"/values/"+sheetName+"!A:B",
             majorDimension:"COLUMNS"
             
         });
@@ -90,9 +42,8 @@ exports.getLink = async (req,res) => {
         ]
     });
     let sName = nconf.get("sheetName") || nconf.get("SHEET_NAME");
-    let sheetId = await getSheetIdByName(sName);
 
-    let entries = await getEntries(sheetId);
+    let entries = await getEntries(sName);
 
     let defURL = nconf.get("DEFAULT_URL")||"https://www.wikipedia.org";
 
