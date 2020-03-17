@@ -48,7 +48,7 @@ exports.getLink = async (req,res) => {
     let defURL = nconf.get("DEFAULT_URL")||"https://www.wikipedia.org";
 
     if(entries != null) {
-        console.log("iterating",entries);
+        console.log("iterating",entries,"for",req.url,req.baseUrl);
         if(Array.isArray(entries)) {
             for(let i=0;i<entries.length;i++) {
                 if(entries[i]=!null && entries[i][0]==req.url)
