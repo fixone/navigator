@@ -51,10 +51,12 @@ exports.getLink = async (req,res) => {
         console.log("iterating",entries,"for",req.url,req.baseUrl);
         if(Array.isArray(entries)) {
             for(let i=0;i<entries.length;i++) {
-                if(entries[i]=!null && entries[i][0]==req.url)
+                console.log("comparing",entries[i][0],"with",req.url)
+                if(entries[i]=!null && entries[i][0]==req.url) {
                     console.log("redirecting to",entries[i][1]);
                     res.redirect(302,entries[i][1]);
                     return;
+                }
             }
 
         }
