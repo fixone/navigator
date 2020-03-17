@@ -4,7 +4,7 @@ const {google} = require("googleapis");
 const nconf = require('nconf');
 nconf.argv().env();
 const docId =  nconf.get("docId")||nconf.get("DOC_ID");
-
+console.log("working with docId",docId);
 const sheetsVersion = "v4";
 
 const reqURL = "https://sheets.googleapis.com/"+sheetsVersion+"/spreadsheets/"+docId;
